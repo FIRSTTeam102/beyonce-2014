@@ -1,9 +1,12 @@
 package edu.wpi.first.wpilibj.templates.commands;
 
+import Team102Lib.MessageLogger;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.templates.OI;
+import edu.wpi.first.wpilibj.templates.subsystems.Chassis;
 import edu.wpi.first.wpilibj.templates.subsystems.ExampleSubsystem;
+import edu.wpi.first.wpilibj.templates.subsystems.Motors;
 
 /**
  * The base for all commands. All atomic commands should subclass CommandBase.
@@ -15,7 +18,8 @@ public abstract class CommandBase extends Command {
 
     public static OI oi;
     // Create a single static instance of all of your subsystems
-    public static ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
+    public static Chassis chassis;
+    public static Motors motors;
 
     public static void init() {
         // This MUST be here. If the OI creates Commands (which it very likely
@@ -23,10 +27,18 @@ public abstract class CommandBase extends Command {
         // which commands extend), subsystems are not guaranteed to be
         // yet. Thus, their requires() statements may grab null pointers. Bad
         // news. Don't move it.
-        oi = new OI();
+        try {
+            oi = new OI();
+            chassis = new Chassis();
+            motors = new Motors();
+        } catch (Exception e) {
+            MessageLogger.LogError("Unhandled Exception in CommandBase.init()");
+            MessageLogger.LogError(e.toString());
+            e.printStackTrace();
+        }
 
         // Show what command your subsystem is running on the SmartDashboard
-        SmartDashboard.putData(exampleSubsystem);
+        //SmartDashboard.putData(chassis);
     }
 
     public CommandBase(String name) {

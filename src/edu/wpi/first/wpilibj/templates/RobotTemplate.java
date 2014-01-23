@@ -6,7 +6,9 @@
 /*----------------------------------------------------------------------------*/
 package edu.wpi.first.wpilibj.templates;
 
+import Team102Lib.Deadband;
 import Team102Lib.MessageLogger;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -45,6 +47,27 @@ public class RobotTemplate extends IterativeRobot {
         }
     }
 
+    // REMEMBER: disabledInit and disabledPeriodic run after robotInit, after autonomousPeriodic
+    // and after teleopPeriodic
+    public void disabledInit() {
+        try {
+
+        } catch (Exception e) {
+            MessageLogger.LogError("Unhandled Exception in disabledInit()");
+            MessageLogger.LogError(e.toString());
+            e.printStackTrace();
+        }
+    }
+
+    public void disabledPeriodic() {
+        try {
+            autonomousCommand.cancel();
+        } catch (Exception e) {
+            MessageLogger.LogError("Unhandled Exception in disabledPeriodic()");
+            MessageLogger.LogError(e.toString());
+            e.printStackTrace();
+        }
+    }
     public void autonomousInit() {
         // schedule the autonomous command (example)
 
@@ -71,6 +94,7 @@ public class RobotTemplate extends IterativeRobot {
         }
     }
 
+
     public void teleopInit() {
         // This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to 
@@ -83,26 +107,11 @@ public class RobotTemplate extends IterativeRobot {
             MessageLogger.LogError(e.toString());
             e.printStackTrace();
         }
-    }
+        DriverStation ds = DriverStation.getInstance();
+        double flatDeadband = ds.getAnalogIn(1) * 2 / 100; //convert from 0-5 to 0-0.1
+        double speedScale = ds.getAnalogIn(3) / 5.0;
+        RobotMap.stickDeadBand = new Deadband(RobotMap.joystickRange, flatDeadband, 1.0, speedScale);
 
-    public void disabledInit() {
-        try {
-
-        } catch (Exception e) {
-            MessageLogger.LogError("Unhandled Exception in disabledInit()");
-            MessageLogger.LogError(e.toString());
-            e.printStackTrace();
-        }
-    }
-
-    public void disabledPeriodic() {
-        try {
-            autonomousCommand.cancel();
-        } catch (Exception e) {
-            MessageLogger.LogError("Unhandled Exception in disabledPeriodic()");
-            MessageLogger.LogError(e.toString());
-            e.printStackTrace();
-        }
     }
 
     /**

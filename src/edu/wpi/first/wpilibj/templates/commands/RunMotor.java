@@ -1,31 +1,42 @@
-
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package edu.wpi.first.wpilibj.templates.commands;
 
-import Team102Lib.MessageLogger;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.templates.RobotMap;
 
 /**
  *
- * @author bradmiller
+ * @author Admin
  */
-public class ExampleCommand extends CommandBase {
+public class RunMotor extends CommandBase {
 
-    public ExampleCommand() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
+    int index;
+    float speed;
+    double initialTime;
+
+    public RunMotor(int index, float speed) {
+        this.index = index;
+        this.speed = speed;
+        requires(motors);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+        initialTime = Timer.getFPGATimestamp();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        MessageLogger.LogError("ExampleCommand is Running.");
+        motors.runMotor(index, speed);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     // Called once after isFinished returns true
