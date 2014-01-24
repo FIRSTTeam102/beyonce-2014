@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.DigitalIOButton;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.templates.commands.ExampleCommand;
-import edu.wpi.first.wpilibj.templates.commands.RunMotor;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -64,27 +63,11 @@ public class OI {
             xBoxY = new JoystickButton(xBox, RobotMap.xBoxYIndex);
             xBoxRightBumper = new JoystickButton(xBox, RobotMap.xBoxRightBumperIndex);
             xBoxLeftBumper = new JoystickButton(xBox, RobotMap.xBoxLeftBumperIndex);
-            xBoxA.whileHeld(new RunMotor(0, 1.0f));
-            xBoxB.whileHeld(new RunMotor(5, 1.0f));
-            xBoxY.whileHeld(new RunMotor(2, 1.0f));
-            xBoxX.whileHeld(new RunMotor(3, 1.0f));
-            xBoxA.whenReleased(new RunMotor(0,0f));
-            xBoxB.whenReleased(new RunMotor(5,0f));
-            xBoxY.whenReleased(new RunMotor(2,0f));
-            xBoxX.whenReleased(new RunMotor(3,0f));
         } catch (Exception ex1) {
             MessageLogger.LogError("Unhandled exception in OI constructor.");
             MessageLogger.LogError(ex1.toString());
         }
 
-    }
-
-    public Joystick getLeftJoystick() {
-        return leftstick;
-    }
-
-    public Joystick getRightJoystick() {
-        return rightstick;
     }
 
     public Joystick getXBox() {
