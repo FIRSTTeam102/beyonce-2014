@@ -72,26 +72,29 @@ public class Chassis extends Subsystem {
         leftJoyY = xBox.getRawAxis(RobotMap.xBoxLeftYAxis);
         rightJoyX = xBox.getRawAxis(RobotMap.xBoxRightXAxis);
         
-        if(Math.abs(leftJoyX) < 0.1){
-            leftJoyX = 0.0;
-        }
-        if(Math.abs(leftJoyY) < 0.1){
-            leftJoyY = 0.0;
-        }
-        if(Math.abs(rightJoyX) < 0.1){
-            rightJoyX = 0.0;
-        }
+      
+        //temporary zeroing for the motors
+        
+        //if(Math.abs(leftJoyX) < 0.1){
+            //leftJoyX = 0.0;
+       // }
+        //if(Math.abs(leftJoyY) < 0.1){
+            //leftJoyY = 0.0;
+       // }
+        //if(Math.abs(rightJoyX) < 0.1){
+           // rightJoyX = 0.0;
+       // }
 //        rightJoyY = xBox.getRawAxis(RobotMap.xBoxRightYAxis);
 
         // leftJoyX = RobotMap.stickDeadBand.Deaden(leftJoyX);
         //leftJoyY = RobotMap.stickDeadBand.Deaden(leftJoyY);
         // rightJoyX = RobotMap.twistDeadBand.Deaden(rightJoyX + RobotMap.twistCorrection);
 
-        MessageLogger.LogMessage("Joysticks LX, LY, RX, RY: \t"
-                + MathLib.round(leftJoyX, 3)
-                + "\t" + MathLib.round(leftJoyY, 3)
-                + "\t" + MathLib.round(rightJoyX, 3)
-                + "\t" + MathLib.round(rightJoyY, 3));
+//        MessageLogger.LogMessage("Joysticks LX, LY, RX, RY: \t"
+//                + MathLib.round(leftJoyX, 3)
+//                + "\t" + MathLib.round(leftJoyY, 3)
+//                + "\t" + MathLib.round(rightJoyX, 3)
+//                + "\t" + MathLib.round(rightJoyY, 3));
 
         drive.mecanumDrive_Cartesian(leftJoyX, leftJoyY, rightJoyX, 0);
     }

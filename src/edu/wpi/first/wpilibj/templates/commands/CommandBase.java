@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.templates.OI;
 import edu.wpi.first.wpilibj.templates.subsystems.Chassis;
+import edu.wpi.first.wpilibj.templates.subsystems.Conveyor;
 import edu.wpi.first.wpilibj.templates.subsystems.ExampleSubsystem;
 /**
  * The base for all commands. All atomic commands should subclass CommandBase.
@@ -17,7 +18,7 @@ public abstract class CommandBase extends Command {
     public static OI oi;
     // Create a single static instance of all of your subsystems
     public static Chassis chassis;
-    
+    public static Conveyor conveyor;
 
     public static void init() {
         // This MUST be here. If the OI creates Commands (which it very likely
@@ -28,6 +29,7 @@ public abstract class CommandBase extends Command {
         try {
             oi = new OI();
             chassis = new Chassis();
+            conveyor = new Conveyor();
         } catch (Exception e) {
             MessageLogger.LogError("Unhandled Exception in CommandBase.init()");
             MessageLogger.LogError(e.toString());
