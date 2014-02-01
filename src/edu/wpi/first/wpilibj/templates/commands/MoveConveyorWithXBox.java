@@ -9,10 +9,10 @@ package edu.wpi.first.wpilibj.templates.commands;
  *
  * @author Admin
  */
-public class MoveConveyor extends CommandBase
+public class MoveConveyorWithXBox extends CommandBase
 {
     
-    public MoveConveyor()
+    public MoveConveyorWithXBox()
     {
         requires(conveyor); // reserve the chassis subsystem
     }

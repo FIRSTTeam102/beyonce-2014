@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.templates.commands.CommandBase;
 import edu.wpi.first.wpilibj.templates.commands.ExampleCommand;
+import edu.wpi.first.wpilibj.templates.commands.TankDrive;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -33,7 +34,6 @@ public class RobotTemplate extends IterativeRobot {
      */
     public void robotInit() {
         // instantiate the command used for the autonomous period
-        autonomousCommand = new ExampleCommand();
         MessageLogger.LogMessage("Beyonce' gonna rock, overload me?");
         MessageLogger.LogMessage("If you like it then you shoulda put a ring on it!");
 
@@ -61,17 +61,20 @@ public class RobotTemplate extends IterativeRobot {
 
     public void disabledPeriodic() {
         try {
-            autonomousCommand.cancel();
+            if(autonomousCommand != null)
+                autonomousCommand.cancel();
         } catch (Exception e) {
             MessageLogger.LogError("Unhandled Exception in disabledPeriodic()");
             MessageLogger.LogError(e.toString());
             e.printStackTrace();
         }
     }
+
     public void autonomousInit() {
         // schedule the autonomous command (example)
 
         try {
+            autonomousCommand = new TankDrive(1.0, .75, 3);
             autonomousCommand.start();
         } catch (Exception e) {
             MessageLogger.LogError("Unhandled Exception in autonomousInit()");
@@ -93,7 +96,6 @@ public class RobotTemplate extends IterativeRobot {
             e.printStackTrace();
         }
     }
-
 
     public void teleopInit() {
         // This makes sure that the autonomous stops running when

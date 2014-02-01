@@ -6,6 +6,8 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.DigitalIOButton;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.templates.commands.ExampleCommand;
+import edu.wpi.first.wpilibj.templates.commands.ShootConveyor;
+import edu.wpi.first.wpilibj.templates.commands.SpinConveyor;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -63,11 +65,21 @@ public class OI {
             xBoxY = new JoystickButton(xBox, RobotMap.xBoxYIndex);
             xBoxRightBumper = new JoystickButton(xBox, RobotMap.xBoxRightBumperIndex);
             xBoxLeftBumper = new JoystickButton(xBox, RobotMap.xBoxLeftBumperIndex);
+            
+            xBoxA.whileHeld(new SpinConveyor(1.0, 1.0));
+            xBoxA.whenReleased(new ShootConveyor(1.0, -1.0, 3.0));
+            
+            xBoxB.whileHeld(new SpinConveyor(-1.00, -1.00));
+            xBoxB.whenReleased(new ShootConveyor(1.0, -1.0, 3.0));
+            
+            //xBoxX.whileHeld(new ShootConveyor());
         } catch (Exception ex1) {
             MessageLogger.LogError("Unhandled exception in OI constructor.");
             MessageLogger.LogError(ex1.toString());
         }
-
+        
+        
+        
     }
 
     public Joystick getXBox() {

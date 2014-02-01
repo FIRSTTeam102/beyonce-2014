@@ -27,9 +27,9 @@ public abstract class CommandBase extends Command {
         // yet. Thus, their requires() statements may grab null pointers. Bad
         // news. Don't move it.
         try {
-            oi = new OI();
             chassis = new Chassis();
             conveyor = new Conveyor();
+            oi = new OI();
         } catch (Exception e) {
             MessageLogger.LogError("Unhandled Exception in CommandBase.init()");
             MessageLogger.LogError(e.toString());
