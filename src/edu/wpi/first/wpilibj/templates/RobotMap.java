@@ -26,6 +26,7 @@ public class RobotMap {
     
     public static final int frontConveyorMotor = 4;
     public static final int rearConveyorMotor = 3;
+    public static final int loadLimitSwitchPort = 8;
 
     // Analog Input Ports
    // public static final int gyroPort = 1;
