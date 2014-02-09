@@ -23,10 +23,10 @@ import edu.wpi.first.wpilibj.templates.commands.DriveWithXBox;
  */
 public class Chassis extends Subsystem {
 
-    private final Victor frontLeftVictor;
-    private final Victor rearLeftVictor;
-    private final Victor rearRightVictor;
-    private final Talon frontRightTalon;
+    private final Talon frontLeftMotor;
+    private final Talon rearLeftMotor;
+    private final Talon rearRightMotor;
+    private final Talon frontRightMotor;
 
     private final RobotDrive drive;
     // Put methods for controlling this subsystem
@@ -35,6 +35,8 @@ public class Chassis extends Subsystem {
     private double leftJoyY;
     private double rightJoyX;
     private double rightJoyY;
+    
+    public double speedScale;
 
     public void initDefaultCommand() {
         setDefaultCommand(new DriveWithXBox());
@@ -44,19 +46,21 @@ public class Chassis extends Subsystem {
     }
 
     public Chassis() {
-        frontLeftVictor = new Victor(RobotMap.frontLeftMotor);
-        rearLeftVictor = new Victor(RobotMap.rearLeftMotor);
-        rearRightVictor = new Victor(RobotMap.rearRightMotor);
-        frontRightTalon = new Talon(RobotMap.frontRightMotor);
+        frontLeftMotor = new Talon(RobotMap.frontLeftMotor);
+        rearLeftMotor = new Talon(RobotMap.rearLeftMotor);
+        rearRightMotor = new Talon(RobotMap.rearRightMotor);
+        frontRightMotor = new Talon(RobotMap.frontRightMotor);
 
         // drive = new RobotDrive(RobotMap.frontLeftMotor, RobotMap.frontRightMotor, RobotMap.rearLeftMotor, RobotMap.rearRightMotor);
-        drive = new RobotDrive(frontLeftVictor, frontRightTalon, rearLeftVictor, rearRightVictor);
+        drive = new RobotDrive(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor);
 
         drive.setSafetyEnabled(false);
         drive.setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
         drive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
         drive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, false);
         drive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, false);
+
+        speedScale = 1.0;
     }
 
     public void straight() { // sets the motor speeds to drive straight (no turn)
@@ -69,6 +73,11 @@ public class Chassis extends Subsystem {
         leftJoyY = xBox.getRawAxis(RobotMap.xBoxLeftYAxis);
         rightJoyX = xBox.getRawAxis(RobotMap.xBoxRightXAxis);
 
+        // Scale the speed.
+        leftJoyX *= speedScale;
+        leftJoyY *= speedScale;
+        rightJoyX *= speedScale;
+        
         //temporary zeroing for the motors
         //if(Math.abs(leftJoyX) < 0.1){
         //leftJoyX = 0.0;
@@ -93,5 +102,21 @@ public class Chassis extends Subsystem {
 
     public void tankDrive(double leftSpeed, double rightSpeed) {
         drive.tankDrive(leftSpeed, rightSpeed);
+    }
+    
+    public void updateStatus()
+    {
+        String status = "Frnt: ";
+        status += MathLib.round(frontLeftMotor.get(), 2) + " ";
+        status += MathLib.round(frontRightMotor.get(), 2) + " ";
+
+        DriverStationLCD.getInstance().println(DriverStationLCD.Line.kUser1, 1, "                     ");
+        DriverStationLCD.getInstance().println(DriverStationLCD.Line.kUser1,1, status);
+
+        status = "Rear: ";
+        status += MathLib.round(rearLeftMotor.get(), 2) + " ";
+        status += MathLib.round(rearRightMotor.get(), 2) + " ";
+        DriverStationLCD.getInstance().println(DriverStationLCD.Line.kUser2, 1, "                     ");
+        DriverStationLCD.getInstance().println(DriverStationLCD.Line.kUser2,1, status);
     }
 }

@@ -25,7 +25,7 @@ public class MoveConveyorWithXBox extends CommandBase
     // Called repeatedly when this Command is scheduled to run
     protected void execute()
     {
-        conveyor.moveConveyorWithXBox(oi.getXBox());
+        conveyor.moveConveyorWithXBox(oi.getOperatorXBox());
     }
 
     // Make this return true when this Command no longer needs to run execute()

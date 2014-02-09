@@ -9,12 +9,12 @@ package edu.wpi.first.wpilibj.templates;
 import Team102Lib.Deadband;
 import Team102Lib.MessageLogger;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStationLCD;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.templates.commands.CommandBase;
-import edu.wpi.first.wpilibj.templates.commands.ExampleCommand;
 import edu.wpi.first.wpilibj.templates.commands.TankDrive;
 
 /**
@@ -61,8 +61,9 @@ public class RobotTemplate extends IterativeRobot {
 
     public void disabledPeriodic() {
         try {
-            if(autonomousCommand != null)
+            if (autonomousCommand != null) {
                 autonomousCommand.cancel();
+            }
         } catch (Exception e) {
             MessageLogger.LogError("Unhandled Exception in disabledPeriodic()");
             MessageLogger.LogError(e.toString());
@@ -88,7 +89,6 @@ public class RobotTemplate extends IterativeRobot {
      */
     public void autonomousPeriodic() {
         try {
-
             Scheduler.getInstance().run();
         } catch (Exception e) {
             MessageLogger.LogError("Unhandled Exception in autonomousPeriodic()");
@@ -104,16 +104,13 @@ public class RobotTemplate extends IterativeRobot {
         // this line or comment it out.
         try {
 
+            DriverStation ds = DriverStation.getInstance();
+//            CommandBase.chassis.speedScale = ds.getAnalogIn(RobotMap.speedScale) / 5.0;
         } catch (Exception e) {
             MessageLogger.LogError("Unhandled Exception in teleopInit()");
             MessageLogger.LogError(e.toString());
             e.printStackTrace();
         }
-        DriverStation ds = DriverStation.getInstance();
-        double flatDeadband = ds.getAnalogIn(1) * 2 / 100; //convert from 0-5 to 0-0.1
-        double speedScale = ds.getAnalogIn(3) / 5.0;
-        RobotMap.stickDeadBand = new Deadband(RobotMap.joystickRange, flatDeadband, 1.0, speedScale);
-
     }
 
     /**
@@ -122,6 +119,12 @@ public class RobotTemplate extends IterativeRobot {
     public void teleopPeriodic() {
         try {
             Scheduler.getInstance().run();
+
+            // Update the status on the driver station
+            CommandBase.conveyor.updateStatus();
+            CommandBase.lift.updateStatus();
+            CommandBase.chassis.updateStatus();
+            DriverStationLCD.getInstance().updateLCD();
 
         } catch (Exception e) {
             MessageLogger.LogError("Unhandled Exception in teleopPeriodic()");

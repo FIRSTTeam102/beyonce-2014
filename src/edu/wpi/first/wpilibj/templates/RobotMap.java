@@ -13,41 +13,59 @@ public class RobotMap {
     // following variables to use with your drivetrain subsystem.
     // public static final int leftMotor = 1;
     // public static final int rightMotor = 2;
-    
+
     // If you are using multiple modules, make sure to define both the port
     // number and the module. For example you with a rangefinder:
     // public static final int rangefinderPort = 1;
     // public static final int rangefinderModule = 1;
-     // PWM Ports
+    // PWM Ports.  ALL MOTORS MUST BE LISTED HERE AND BE ON UNIQUE PORTS
     public static final int frontLeftMotor = 1;
     public static final int frontRightMotor = 2;
     public static final int rearLeftMotor = 5;
     public static final int rearRightMotor = 6;
-    
-    public static final int frontConveyorMotor = 4;
-    public static final int rearConveyorMotor = 3;
-    public static final int loadLimitSwitchPort = 8;
+
+    public static final int frontConveyorMotor = 3;
+    public static final int rearConveyorMotor = 4;
+
+    public static final int leftLiftMotor = 7;
+    public static final int rightLiftMotor = 8;
 
     // Analog Input Ports
-   // public static final int gyroPort = 1;
-    //public static final int ultrasonic = 2;
 
+    //Digital Output Ports
+    
+    //Digital Input Ports
+    public static final int loadLimitSwitchPort = 12;
+
+    public static final int liftDownLeft = 8;
+    public static final int liftDownRight = 9;
+    public static final int liftUpLeft = 10;
+    public static final int liftUpRight = 11;
+
+    // Solenoid Modules and Ports
+
+    // OTHER CONSTANTS
+    public static final double minConveyorSpeedToShoot = 0.10;
+    public static final double percentSpeedToLoadBall = 0.5;
+    public static final double secsToShootConveyor = 3.0;
+    public static final double liftSpeed = 0.5;
+    public static final double liftMotorSpeedAdjustment = 0.90;
     // Joystick Setup
     public static final double joystickRange = 1.0d; // the range of the joystick around 0.0
     public static final double flatDeadband = 0.02d;        // The amount of flat space in the deadband (around 0.0)
     public static Deadband stickDeadBand = null;    // Used to create a smooth deadband for the stick.
-   // public static final double twistCorrection = +0.0;
 
-    //Digital Outputs
-   // public static final int compressorSwitchChannel = 1;
+    // public static final double twistCorrection = +0.0;
 
-    //Digital Inputs
-   
-    
-    // Solenoid Modules and Ports
-  
-    
-     // XBox Controller Button Indexes
+    // XBox Controller Joystick Axis
+    public static final int xBoxLeftXAxis = 1;
+    public static final int xBoxLeftYAxis = 2;
+    public static final int xBoxTriggerAxis = 3;  // Left trigger 0.0-0.5, right trigger 0.5-1.0
+    public static final int xBoxRightXAxis = 4;
+    public static final int xBoxRightYAxis = 5;
+    public static final int xBoxDPadHorizontalAxis = 6;
+
+    // XBox Controller Button Indexes
     public static final int xBoxAIndex = 1;
     public static final int xBoxBIndex = 2;
     public static final int xBoxXIndex = 3;
@@ -56,14 +74,10 @@ public class RobotMap {
     public static final int xBoxRightBumperIndex = 6;
     public static final int xBoxBackButtonIndex = 7;
     public static final int xBoxStartButtonIndex = 8;
-    
-    
-    // XBox Controller Joystick Axis
-    public static final int xBoxLeftXAxis = 1;
-    public static final int xBoxLeftYAxis = 2;
-    public static final int xBoxTriggerAxis = 3;  // Left trigger 0.0-0.5, right trigger 0.5-1.0
-    public static final int xBoxRightXAxis = 4;    
-    public static final int xBoxRightYAxis = 5;
-    public static final int xBoxDPadHorizontalAxis = 6;
-}
 
+    // Driver Stations Digital Inputs
+    public static final int twoDriverModeDI = 1;
+
+    // Driver Stations Analog Inputs
+    public static final int speedScale = 3;
+}
