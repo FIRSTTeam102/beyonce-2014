@@ -7,6 +7,8 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.DigitalIOButton;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.templates.commands.LiftDown;
+import edu.wpi.first.wpilibj.templates.commands.LiftLeft;
+import edu.wpi.first.wpilibj.templates.commands.LiftRight;
 import edu.wpi.first.wpilibj.templates.commands.LiftUp;
 import edu.wpi.first.wpilibj.templates.commands.Shoot;
 import edu.wpi.first.wpilibj.templates.commands.MoveConveyorAtSpeed;
@@ -47,8 +49,9 @@ public class OI {
     public static final int JOYSTICK_PORT1 = 1;
     public static final int JOYSTICK_PORT2 = 2;
     public static final int JOYSTICK_PORT3 = 3;
-    private Joystick xBox;
-    private Joystick xBox2;
+    private Joystick xBoxDriver;
+    private Joystick xBoxOperator;
+    private Joystick xBoxTester;
     private JoystickButton trigger;
     private JoystickButton leftStickButton8;
     private JoystickButton xBoxA;
@@ -57,38 +60,53 @@ public class OI {
     private JoystickButton xBoxX;
     private JoystickButton xBoxRightBumper;
     private JoystickButton xBoxLeftBumper;
+    
+  //Tester Buttons
+    private JoystickButton xBoxTesterA;
+    private JoystickButton xBoxTesterB;
+    private JoystickButton xBoxTesterY;
+    private JoystickButton xBoxTesterX;
+    private JoystickButton xBoxTesterRightBumper;
+    private JoystickButton xBoxTesterLeftBumper;
     private boolean twoDriverMode = false;
     
     public OI() {
         try {
-            xBox = new Joystick(JOYSTICK_PORT1);
+            xBoxDriver = new Joystick(JOYSTICK_PORT1);
+            xBoxTester = new Joystick(JOYSTICK_PORT3);
 
-            xBoxX = new JoystickButton(xBox, RobotMap.xBoxXIndex);
-            xBoxY = new JoystickButton(xBox, RobotMap.xBoxYIndex);
-            xBoxRightBumper = new JoystickButton(xBox, RobotMap.xBoxRightBumperIndex);
+            xBoxX = new JoystickButton(xBoxDriver, RobotMap.xBoxXIndex);
+            xBoxY = new JoystickButton(xBoxDriver, RobotMap.xBoxYIndex);
+            xBoxRightBumper = new JoystickButton(xBoxDriver, RobotMap.xBoxRightBumperIndex);
 
             DriverStation ds = DriverStation.getInstance();
             // ATTENTION: getAnalog does not work in robotInit()!!  (except in debug mode :()
             twoDriverMode = ds.getDigitalIn(RobotMap.twoDriverModeDI);
             if(twoDriverMode)
             {
-                xBox2 = new Joystick(JOYSTICK_PORT2);
-                xBoxA = new JoystickButton(xBox2, RobotMap.xBoxAIndex);
-                xBoxB = new JoystickButton(xBox2, RobotMap.xBoxBIndex);
-                xBoxLeftBumper = new JoystickButton(xBox2, RobotMap.xBoxLeftBumperIndex);
+                xBoxOperator = new Joystick(JOYSTICK_PORT2);
+                xBoxA = new JoystickButton(xBoxOperator, RobotMap.xBoxAIndex);
+                xBoxB = new JoystickButton(xBoxOperator, RobotMap.xBoxBIndex);
+                xBoxLeftBumper = new JoystickButton(xBoxOperator, RobotMap.xBoxLeftBumperIndex);
             }
             else
             {
-                xBoxA = new JoystickButton(xBox, RobotMap.xBoxAIndex);
-                xBoxB = new JoystickButton(xBox, RobotMap.xBoxBIndex);
-                xBoxLeftBumper = new JoystickButton(xBox, RobotMap.xBoxLeftBumperIndex);
+                xBoxA = new JoystickButton(xBoxDriver, RobotMap.xBoxAIndex);
+                xBoxB = new JoystickButton(xBoxDriver, RobotMap.xBoxBIndex);
+                xBoxLeftBumper = new JoystickButton(xBoxDriver, RobotMap.xBoxLeftBumperIndex);
             }
-//            xBoxLeftBumper.toggleWhenPressed(new Shoot());
-//            xBoxA.whileHeld(new MoveLift(RobotMap.liftSpeed));
-//            xBoxB.whileHeld(new MoveLift(-RobotMap.liftSpeed));
+            xBoxLeftBumper.toggleWhenPressed(new Shoot());
+            xBoxA.whileHeld(new MoveLift(RobotMap.liftUpSpeed));
+            xBoxB.whileHeld(new MoveLift(-RobotMap.liftDownSpeed));
+            
+            //Tester Controller
             
 
-            
+/*            xBoxTesterA.whileHeld(new LiftRight(true));
+            xBoxTesterB.whileHeld(new LiftRight(false));
+            xBoxTesterX.whileHeld(new LiftLeft(true));
+            xBoxTesterY.whileHeld(new LiftLeft(false));
+ */                    
         } catch (Exception ex1) {
             MessageLogger.LogError("Unhandled exception in OI constructor.");
             MessageLogger.LogError(ex1.toString());
@@ -97,11 +115,11 @@ public class OI {
 
     public Joystick getOperatorXBox() {
         if(twoDriverMode)
-            return xBox2;
+            return xBoxOperator;
         else
-            return xBox;
+            return xBoxDriver;
     }
     public Joystick getDriverXBox() {
-        return xBox;
+        return xBoxDriver;
     }
 }

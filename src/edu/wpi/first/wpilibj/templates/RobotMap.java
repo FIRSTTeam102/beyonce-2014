@@ -48,8 +48,10 @@ public class RobotMap {
     public static final double minConveyorSpeedToShoot = 0.10;
     public static final double percentSpeedToLoadBall = 0.5;
     public static final double secsToShootConveyor = 3.0;
-    public static final double liftSpeed = 0.5;
-    public static final double liftMotorSpeedAdjustment = 0.90;
+    public static final double liftUpSpeed = 1.0;
+    public static final double liftDownSpeed = 0.5;
+    public static final double liftMotorSpeedAdjustment = 0.8; 
+     
     // Joystick Setup
     public static final double joystickRange = 1.0d; // the range of the joystick around 0.0
     public static final double flatDeadband = 0.02d;        // The amount of flat space in the deadband (around 0.0)

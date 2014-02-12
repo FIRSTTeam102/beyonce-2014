@@ -45,19 +45,59 @@ public class Lift extends Subsystem {
 
     public void lift(double speed) {
         leftMotor.set(speed);
-        if(speed > 0.0)
-        {
+        if (speed > 0.0) {
             rightMotor.set(speed * RobotMap.liftMotorSpeedAdjustment);
+        } else {
+            rightMotor.set(speed * RobotMap.liftMotorSpeedAdjustment);
+
         }
-        else
-            rightMotor.set(speed);            
+    }
+
+    public void liftLeft(boolean up) {
+        if (up) {
+            if (liftUpLeft.get() == true) {
+                leftMotor.set(RobotMap.liftUpSpeed);
+                MessageLogger.LogMessage("LiftUp - left motor up.");
+            } else {
+                leftMotor.set(0.0);
+                MessageLogger.LogMessage("LiftUp - stopping left motor.");
+            }
+        } else {
+            if (liftDownLeft.get() == false) {
+                leftMotor.set(0.0);
+                MessageLogger.LogMessage("LiftDown - stopping left motor.");
+            } else {
+                leftMotor.set(-RobotMap.liftDownSpeed);
+                MessageLogger.LogMessage("LiftDown - left motor down.");
+            }
+        }
+    }
+
+    public void liftRight(boolean up) {
+        if (up) {
+            if (liftUpRight.get() == true) {
+                rightMotor.set(RobotMap.liftUpSpeed * RobotMap.liftMotorSpeedAdjustment);
+                MessageLogger.LogMessage("LiftUp - right motor up.");
+            } else {
+                rightMotor.set(0.0);
+                MessageLogger.LogMessage("LiftUp - stopping right motor.");
+            }
+        } else {
+            if (liftDownRight.get() == false) {
+                rightMotor.set(0.0);
+                MessageLogger.LogMessage("LiftDown - stopping right motor.");
+            } else {
+                rightMotor.set(-RobotMap.liftDownSpeed);
+                MessageLogger.LogMessage("LiftDown - right motor down.");
+            }
+        }
     }
 
     public void liftUp() {
         if ((liftUpLeft.get() == true) && (liftUpRight.get() == true)) {
 
-            leftMotor.set(RobotMap.liftSpeed);
-            rightMotor.set(RobotMap.liftSpeed * RobotMap.liftMotorSpeedAdjustment);
+            leftMotor.set(RobotMap.liftUpSpeed);
+            rightMotor.set(RobotMap.liftUpSpeed * RobotMap.liftMotorSpeedAdjustment);
             MessageLogger.LogMessage("LiftUp - left and right motor up.");
         } else {
             leftMotor.set(0.0);
@@ -72,14 +112,14 @@ public class Lift extends Subsystem {
             leftMotor.set(0.0);
             MessageLogger.LogMessage("LiftDown - stopping left motor.");
         } else {
-            leftMotor.set(-RobotMap.liftSpeed);
+            leftMotor.set(-RobotMap.liftDownSpeed);
             MessageLogger.LogMessage("LiftDown - left motor down.");
         }
         if (liftDownRight.get() == false) {
             rightMotor.set(0.0);
             MessageLogger.LogMessage("LiftDown - stopping right motor.");
         } else {
-            rightMotor.set(-RobotMap.liftSpeed);
+            rightMotor.set(-RobotMap.liftDownSpeed * RobotMap.liftMotorSpeedAdjustment);
             MessageLogger.LogMessage("LiftDown - right motor down.");
         }
     }
@@ -121,5 +161,39 @@ public class Lift extends Subsystem {
 
         DriverStationLCD.getInstance().println(DriverStationLCD.Line.kUser6, 1, "                     ");
         DriverStationLCD.getInstance().println(DriverStationLCD.Line.kUser6, 1, status);
+    }
+
+    public boolean isLiftLeftAtLimit(boolean up) {
+        if (up) {
+            if (liftUpLeft.get() == true) {
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            if (liftDownLeft.get() == false) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+    }
+
+    public boolean isLiftRightAtLimit(boolean up) {
+        if (up) {
+            if (liftUpRight.get() == true) {
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            if (liftDownRight.get() == false) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
     }
 }

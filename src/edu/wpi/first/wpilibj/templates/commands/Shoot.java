@@ -6,6 +6,7 @@
 package edu.wpi.first.wpilibj.templates.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.WaitCommand;
 import edu.wpi.first.wpilibj.templates.RobotMap;
 
 /**
@@ -22,6 +23,7 @@ public class Shoot extends CommandGroup {
 
         addParallel(new MoveConveyor(RobotMap.secsToShootConveyor));
         addSequential(new LiftUp());
+        addSequential(new WaitCommand(0.5));
         addSequential(new LiftDown());
 
         // To run multiple commands at the same time,
