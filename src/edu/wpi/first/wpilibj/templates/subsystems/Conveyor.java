@@ -90,6 +90,12 @@ public class Conveyor extends Subsystem {
         }
     }
 
+       public void setConstantSpeedValue(double constantSpeedValue) {
+
+            isConstantSpeedMode = true;
+            this.constantSpeedValue = constantSpeedValue;
+    }
+
     public void moveConveyorAtConstantSpeed() {
         if (isConstantSpeedMode == false) {
             return;

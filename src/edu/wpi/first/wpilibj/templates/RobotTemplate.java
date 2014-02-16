@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.templates.commands.AutonomousTimed;
 import edu.wpi.first.wpilibj.templates.commands.CommandBase;
 import edu.wpi.first.wpilibj.templates.commands.TankDrive;
 
@@ -75,7 +76,7 @@ public class RobotTemplate extends IterativeRobot {
         // schedule the autonomous command (example)
 
         try {
-            autonomousCommand = new TankDrive(1.0, .75, 3);
+            autonomousCommand = new AutonomousTimed();
             autonomousCommand.start();
         } catch (Exception e) {
             MessageLogger.LogError("Unhandled Exception in autonomousInit()");
@@ -89,6 +90,13 @@ public class RobotTemplate extends IterativeRobot {
      */
     public void autonomousPeriodic() {
         try {
+                    // Update the status on the driver station
+            CommandBase.conveyor.updateStatus();
+            CommandBase.lift.updateStatus();
+            CommandBase.chassis.updateStatus();
+            // CommandBase.chassisWithEncoder.updateStatus();
+            DriverStationLCD.getInstance().updateLCD();
+
             Scheduler.getInstance().run();
         } catch (Exception e) {
             MessageLogger.LogError("Unhandled Exception in autonomousPeriodic()");
@@ -103,6 +111,7 @@ public class RobotTemplate extends IterativeRobot {
         // continue until interrupted by another command, remove
         // this line or comment it out.
         try {
+            autonomousCommand.cancel();
             CommandBase.oi.CreateOI();
             DriverStation ds = DriverStation.getInstance();
 //            CommandBase.chassis.speedScale = ds.getAnalogIn(RobotMap.speedScale) / 5.0;
@@ -123,8 +132,8 @@ public class RobotTemplate extends IterativeRobot {
             // Update the status on the driver station
             CommandBase.conveyor.updateStatus();
             CommandBase.lift.updateStatus();
-           CommandBase.chassis.updateStatus();
-           // CommandBase.chassisWithEncoder.updateStatus();
+            CommandBase.chassis.updateStatus();
+            // CommandBase.chassisWithEncoder.updateStatus();
             DriverStationLCD.getInstance().updateLCD();
 
         } catch (Exception e) {
