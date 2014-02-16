@@ -39,7 +39,7 @@ public class Chassis extends Subsystem {
     public double speedScale;
 
     public void initDefaultCommand() {
-        setDefaultCommand(new DriveWithXBox());
+     //   setDefaultCommand(new DriveWithXBox());
     }
 
     public Chassis() {
@@ -75,25 +75,17 @@ public class Chassis extends Subsystem {
         leftJoyY *= speedScale;
         rightJoyX *= speedScale;
 
-        //temporary zeroing for the motors
-        if (Math.abs(leftJoyX) < 0.1) {
+        // Simple deadband
+        if (Math.abs(leftJoyX) < 0.05) {
             leftJoyX = 0.0;
         }
-        if (Math.abs(leftJoyY) < 0.1) {
+        if (Math.abs(leftJoyY) < 0.05) {
             leftJoyY = 0.0;
         }
-        if (Math.abs(rightJoyX) < 0.1) {
+        if (Math.abs(rightJoyX) < 0.05) {
             rightJoyX = 0.0;
         }
-//        rightJoyY = xBox.getRawAxis(RobotMap.xBoxRightYAxis);
-        // leftJoyX = RobotMap.stickDeadBand.Deaden(leftJoyX);
-        //leftJoyY = RobotMap.stickDeadBand.Deaden(leftJoyY);
-        // rightJoyX = RobotMap.twistDeadBand.Deaden(rightJoyX + RobotMap.twistCorrection);
-//        MessageLogger.LogMessage("Joysticks LX, LY, RX, RY: \t"
-//                + MathLib.round(leftJoyX, 3)
-//                + "\t" + MathLib.round(leftJoyY, 3)
-//                + "\t" + MathLib.round(rightJoyX, 3)
-//                + "\t" + MathLib.round(rightJoyY, 3));
+
         drive.mecanumDrive_Cartesian(leftJoyX, leftJoyY, rightJoyX, 0);
     }
 

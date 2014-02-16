@@ -15,7 +15,7 @@ public class AutonomousTimed extends CommandGroup {
     
     public AutonomousTimed() {
         addSequential(new AutonomousLoadBall());
-        addSequential(new TankDrive(1.0, .95, 2.5));
+        addSequential(new TankDrive(1.0, .95, 1.0));
         addSequential(new TankDrive(0.5, 0.475, 0.5)); 
         addSequential(new AutonomousShoot());
         // Add Commands here:

@@ -25,7 +25,7 @@ public class AllMotorTestForward extends CommandBase {
         conveyor.frontMotor.set(0.2);
         conveyor.rearMotor.set(0.2);
         initialTime = Timer.getFPGATimestamp();
-        MessageLogger.LogMessage("Motors Full Forward");
+        MessageLogger.LogMessage("Motors Full Forward initialize");
         
         
     }
@@ -46,7 +46,7 @@ public class AllMotorTestForward extends CommandBase {
         chassis.tankDrive(0.0,0.0);
         conveyor.frontMotor.set(0.0);
         conveyor.rearMotor.set(0.0);
-        MessageLogger.LogMessage("Forward Stopped");
+        MessageLogger.LogMessage("Forward end");
     }
 
     // Called when another command which requires one or more of the same

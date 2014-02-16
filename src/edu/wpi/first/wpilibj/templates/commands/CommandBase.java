@@ -21,8 +21,8 @@ public abstract class CommandBase extends Command {
 
     public static OI oi;
     // Create a single static instance of all of your subsystems
-    public static Chassis chassis;
-    public static ChassisWithEncoder chassisWithEncoder;
+ //   public static Chassis chassis;
+    public static ChassisWithEncoder chassis;
     public static Conveyor conveyor;
     public static Lift lift;
 
@@ -33,8 +33,8 @@ public abstract class CommandBase extends Command {
         // yet. Thus, their requires() statements may grab null pointers. Bad
         // news. Don't move it.
         try {
-            chassis = new Chassis();
-//            chassisWithEncoder = new ChassisWithEncoder();
+//            chassis = new Chassis();
+           chassis = new ChassisWithEncoder();
             conveyor = new Conveyor();
             lift = new Lift();
             // ALL SUBSYSTEMS MUST BE CREATED BEFORE THE OI

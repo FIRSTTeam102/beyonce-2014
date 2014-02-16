@@ -42,8 +42,8 @@ public class RobotMap {
     public static final int liftUpLeft = 10;
     public static final int liftUpRight = 11;
     
-    public static final int encoderA = 13;
-    public static final int encoderB = 14;
+    public static final int encoderA = 2;
+    public static final int encoderB = 1;
 
     // Solenoid Modules and Ports
 

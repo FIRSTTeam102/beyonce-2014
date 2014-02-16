@@ -5,6 +5,8 @@
  */
 package edu.wpi.first.wpilibj.templates.commands;
 
+import Team102Lib.MessageLogger;
+
 /**
  *
  * @author Admin
@@ -21,6 +23,7 @@ public class AutonomousLoadBall extends CommandBase {
     // Called just before this Command runs the first time
     protected void initialize() {
         conveyor.moveConveyor(-0.5, 0.5);
+        MessageLogger.LogMessage("AutonomousLoadBall initialize");
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -41,5 +44,7 @@ public class AutonomousLoadBall extends CommandBase {
     // subsystems is scheduled to run
     protected void interrupted() {
         end();
+             MessageLogger.LogMessage("AutonomousLoadBall end");
+        
     }
 }

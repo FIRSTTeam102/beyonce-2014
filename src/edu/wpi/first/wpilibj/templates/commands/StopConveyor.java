@@ -5,6 +5,8 @@
  */
 package edu.wpi.first.wpilibj.templates.commands;
 
+import Team102Lib.MessageLogger;
+
 /**
  *
  * @author Admin
@@ -19,6 +21,8 @@ public class StopConveyor extends CommandBase {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+                   MessageLogger.LogMessage("Stop conveyor command initialize");
+
         conveyor.moveConveyor(0.0, 0.0);
     }
 
@@ -40,5 +44,6 @@ public class StopConveyor extends CommandBase {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+           MessageLogger.LogMessage("Stop conveyor command interrupted");
     }
 }

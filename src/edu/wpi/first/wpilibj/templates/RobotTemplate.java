@@ -111,7 +111,8 @@ public class RobotTemplate extends IterativeRobot {
         // continue until interrupted by another command, remove
         // this line or comment it out.
         try {
-            autonomousCommand.cancel();
+            if(autonomousCommand != null)
+                autonomousCommand.cancel();
             CommandBase.oi.CreateOI();
             DriverStation ds = DriverStation.getInstance();
 //            CommandBase.chassis.speedScale = ds.getAnalogIn(RobotMap.speedScale) / 5.0;

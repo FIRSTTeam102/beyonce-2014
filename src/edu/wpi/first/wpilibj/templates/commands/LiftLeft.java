@@ -24,6 +24,8 @@ public class LiftLeft extends CommandBase {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+                MessageLogger.LogMessage("Lift left command began");
+
         if (up && lift.isLiftLeftAtLimit(up)) {
             lift.stopMotors();
         } else {

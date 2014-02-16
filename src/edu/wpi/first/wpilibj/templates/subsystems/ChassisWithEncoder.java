@@ -34,8 +34,6 @@ public class ChassisWithEncoder extends PIDSubsystem {
     private final Talon rearRightMotor;
     private final Talon frontRightMotor;
 
-    public Encoder encoder;
-
     private final RobotDrive drive;
     // Put methods for controlling this subsystem
     // here. Call these from Commands
@@ -46,8 +44,10 @@ public class ChassisWithEncoder extends PIDSubsystem {
 
     public double speedScale;
 
+    public Encoder encoder;
+
     public void initDefaultCommand() {
-//        setDefaultCommand(new DriveWithXBox());
+       setDefaultCommand(new DriveWithXBox());
     }
 
     public ChassisWithEncoder() {
@@ -88,25 +88,17 @@ public class ChassisWithEncoder extends PIDSubsystem {
         leftJoyY *= speedScale;
         rightJoyX *= speedScale;
 
-        //temporary zeroing for the motors
-        //if(Math.abs(leftJoyX) < 0.1){
-        //leftJoyX = 0.0;
-        // }
-        //if(Math.abs(leftJoyY) < 0.1){
-        //leftJoyY = 0.0;
-        // }
-        //if(Math.abs(rightJoyX) < 0.1){
-        // rightJoyX = 0.0;
-        // }
-//        rightJoyY = xBox.getRawAxis(RobotMap.xBoxRightYAxis);
-        // leftJoyX = RobotMap.stickDeadBand.Deaden(leftJoyX);
-        //leftJoyY = RobotMap.stickDeadBand.Deaden(leftJoyY);
-        // rightJoyX = RobotMap.twistDeadBand.Deaden(rightJoyX + RobotMap.twistCorrection);
-//        MessageLogger.LogMessage("Joysticks LX, LY, RX, RY: \t"
-//                + MathLib.round(leftJoyX, 3)
-//                + "\t" + MathLib.round(leftJoyY, 3)
-//                + "\t" + MathLib.round(rightJoyX, 3)
-//                + "\t" + MathLib.round(rightJoyY, 3));
+        // Simple deadband
+        if (Math.abs(leftJoyX) < 0.1) {
+            leftJoyX = 0.0;
+        }
+        if (Math.abs(leftJoyY) < 0.1) {
+            leftJoyY = 0.0;
+        }
+        if (Math.abs(rightJoyX) < 0.1) {
+            rightJoyX = 0.0;
+        }
+
         drive.mecanumDrive_Cartesian(leftJoyX, leftJoyY, rightJoyX, 0);
     }
 

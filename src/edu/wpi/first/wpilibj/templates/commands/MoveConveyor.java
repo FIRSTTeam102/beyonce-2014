@@ -5,6 +5,8 @@
  */
 package edu.wpi.first.wpilibj.templates.commands;
 
+import Team102Lib.MessageLogger;
+
 /**
  *
  * @author Admin
@@ -21,6 +23,8 @@ public class MoveConveyor extends CommandBase {
     // Called just before this Command runs the first time
     protected void initialize() {
         conveyor.setConstantSpeedValue(oi.getOperatorXBox());        
+                MessageLogger.LogMessage("Move Conveyor command began");
+
     }
     
     
@@ -43,6 +47,7 @@ public class MoveConveyor extends CommandBase {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+                MessageLogger.LogMessage("Move Conveyor command interrupted");
         end();
     }
 }

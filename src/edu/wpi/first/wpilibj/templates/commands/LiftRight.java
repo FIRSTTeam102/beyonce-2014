@@ -23,6 +23,8 @@ public class LiftRight extends CommandBase {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+                MessageLogger.LogMessage("Lift right command began");
+
         if (up && lift.isLiftRightAtLimit(up)) {
             lift.stopMotors();
         } else {

@@ -116,6 +116,8 @@ public class OI {
             xBoxTesterB = new JoystickButton(xBoxTester, RobotMap.xBoxBIndex);
             xBoxTesterX = new JoystickButton(xBoxTester, RobotMap.xBoxXIndex);
             xBoxTesterY = new JoystickButton(xBoxTester, RobotMap.xBoxYIndex);
+            xBoxTesterRightBumper = new JoystickButton(xBoxTester, RobotMap.xBoxRightBumperIndex);
+             xBoxTesterLeftBumper = new JoystickButton(xBoxTester, RobotMap.xBoxLeftBumperIndex);
             xBoxTesterA.whenPressed(new LiftRight(true));
             xBoxTesterA.whenReleased(new MoveLift(0.0));
             xBoxTesterB.whenPressed(new LiftRight(false));
@@ -124,7 +126,10 @@ public class OI {
             xBoxTesterX.whenReleased(new MoveLift(0.0));
             xBoxTesterY.whenPressed(new LiftLeft(false));
             xBoxTesterY.whenReleased(new MoveLift(0.0));
-            
+            xBoxTesterRightBumper.whenPressed(new DriveADistance(RobotMap.autonomousLowGoalDistance));
+            xBoxTesterRightBumper.whenReleased(new DriveADistance(0.0));
+            xBoxTesterLeftBumper.whenPressed(new DriveADistance(RobotMap.autonomousLowGoalDistance));  
+            xBoxTesterLeftBumper.whenReleased(new DriveADistance(0.0));
         
     }
     public Joystick getOperatorXBox() {

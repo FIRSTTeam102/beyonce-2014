@@ -4,6 +4,8 @@
  */
 package edu.wpi.first.wpilibj.templates.commands;
 
+import Team102Lib.MessageLogger;
+
 
 /**
  *
@@ -43,5 +45,6 @@ public class DriveWithXBox extends CommandBase
     // subsystems is scheduled to run
     protected void interrupted()
     {
+         MessageLogger.LogMessage("DriveWithXBox interrupted");
     }
 }
