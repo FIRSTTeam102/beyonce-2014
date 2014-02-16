@@ -103,7 +103,7 @@ public class RobotTemplate extends IterativeRobot {
         // continue until interrupted by another command, remove
         // this line or comment it out.
         try {
-
+            CommandBase.oi.CreateOI();
             DriverStation ds = DriverStation.getInstance();
 //            CommandBase.chassis.speedScale = ds.getAnalogIn(RobotMap.speedScale) / 5.0;
         } catch (Exception e) {
@@ -123,7 +123,8 @@ public class RobotTemplate extends IterativeRobot {
             // Update the status on the driver station
             CommandBase.conveyor.updateStatus();
             CommandBase.lift.updateStatus();
-            CommandBase.chassis.updateStatus();
+           CommandBase.chassis.updateStatus();
+           // CommandBase.chassisWithEncoder.updateStatus();
             DriverStationLCD.getInstance().updateLCD();
 
         } catch (Exception e) {

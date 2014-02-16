@@ -5,12 +5,17 @@
  */
 package edu.wpi.first.wpilibj.templates.commands;
 
+import Team102Lib.MathLib;
+import Team102Lib.MessageLogger;
+
 /**
  *
  * @author Admin
  */
 public class LiftLeft extends CommandBase {
+
     boolean up;
+
     public LiftLeft(boolean up) {
         // Use requires() here to declare subsystem dependencies
         requires(lift);
@@ -19,17 +24,25 @@ public class LiftLeft extends CommandBase {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+        if (up && lift.isLiftLeftAtLimit(up)) {
+            lift.stopMotors();
+        } else {
+            lift.liftLeft(up);
+        }
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        if(!lift.isLiftLeftAtLimit(up))
-            lift.liftLeft(up);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        if (up && lift.isLiftLeftAtLimit(up)) {
+            MessageLogger.LogMessage("LiftLeft reached up limit switch");
+            return true;
+        } else {
+            return false;
+        }
     }
 
     // Called once after isFinished returns true
@@ -40,5 +53,7 @@ public class LiftLeft extends CommandBase {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+        MessageLogger.LogMessage("LiftLeft interrupted");
+        end();
     }
 }

@@ -11,37 +11,44 @@ import Team102Lib.MessageLogger;
  *
  * @author Admin
  */
-public class LiftRight extends CommandBase {
+public class LiftSlowStartup extends CommandBase {
 
-    boolean up;
+    double liftSpeed;
 
-    public LiftRight(boolean up) {
-        // Use requires() here to declare subsystem dependencies
+    public LiftSlowStartup() {
+
         requires(lift);
-        this.up = up;
+        // eg. requires(chassis);
+
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        if (up && lift.isLiftRightAtLimit(up)) {
-            lift.stopMotors();
-        } else {
-            lift.liftRight(up);
-        }
+        MessageLogger.LogMessage("Slow Start initialized.");
+        liftSpeed = 0.1;
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+
+        lift.liftUp(liftSpeed);
+        liftSpeed += 0.05;
+        liftSpeed = Math.min(liftSpeed, 1.0);
+        
+
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        if (up && lift.isLiftRightAtLimit(up)) {
-            MessageLogger.LogMessage("LiftRight reached up limit switch");
-            return true;
-        } else {
-            return false;
+        if (lift.isLiftUpAtLimit()) {
+            MessageLogger.LogMessage("Lift up command at limit switch.");
         }
+//        if ((!conveyor.isConveyorRunning())) {
+//            MessageLogger.LogMessage("Lift up command finished because conveyor is not running.");
+//        }
+
+        return (lift.isLiftUpAtLimit());    // || (!conveyor.isConveyorRunning())
+
     }
 
     // Called once after isFinished returns true
@@ -52,7 +59,7 @@ public class LiftRight extends CommandBase {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-        MessageLogger.LogMessage("LiftLeft interrupted");
+        MessageLogger.LogMessage("Slow Start interrupted.");
         end();
     }
 }

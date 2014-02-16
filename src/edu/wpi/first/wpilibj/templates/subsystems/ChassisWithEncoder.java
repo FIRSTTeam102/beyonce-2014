@@ -9,11 +9,13 @@ import Team102Lib.MathLib;
 import Team102Lib.MessageLogger;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStationLCD;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Victor;
-import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.command.PIDSubsystem;
+//import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.templates.RobotMap;
 import edu.wpi.first.wpilibj.templates.commands.DriveWithXBox;
 
@@ -21,12 +23,18 @@ import edu.wpi.first.wpilibj.templates.commands.DriveWithXBox;
  *
  * @author Admin
  */
-public class Chassis extends Subsystem {
+public class ChassisWithEncoder extends PIDSubsystem {
+
+    private static final double Kp = 0.01;
+    private static final double Ki = 0.0;
+    private static final double Kd = 0.01;
 
     private final Talon frontLeftMotor;
     private final Talon rearLeftMotor;
     private final Talon rearRightMotor;
     private final Talon frontRightMotor;
+
+    public Encoder encoder;
 
     private final RobotDrive drive;
     // Put methods for controlling this subsystem
@@ -39,10 +47,12 @@ public class Chassis extends Subsystem {
     public double speedScale;
 
     public void initDefaultCommand() {
-        setDefaultCommand(new DriveWithXBox());
+//        setDefaultCommand(new DriveWithXBox());
     }
 
-    public Chassis() {
+    public ChassisWithEncoder() {
+        super("ChassisWithEncoder", Kp, Ki, Kd);
+        
         frontLeftMotor = new Talon(RobotMap.frontLeftMotor);
         rearLeftMotor = new Talon(RobotMap.rearLeftMotor);
         rearRightMotor = new Talon(RobotMap.rearRightMotor);
@@ -58,6 +68,9 @@ public class Chassis extends Subsystem {
         drive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, false);
 
         speedScale = 1.0;
+        
+        encoder = new Encoder(RobotMap.encoderA, RobotMap.encoderB);
+        encoder.setDistancePerPulse(RobotMap.encoderInchesPerPulse);
     }
 
     public void straight() { // sets the motor speeds to drive straight (no turn)
@@ -76,15 +89,15 @@ public class Chassis extends Subsystem {
         rightJoyX *= speedScale;
 
         //temporary zeroing for the motors
-        if (Math.abs(leftJoyX) < 0.1) {
-            leftJoyX = 0.0;
-        }
-        if (Math.abs(leftJoyY) < 0.1) {
-            leftJoyY = 0.0;
-        }
-        if (Math.abs(rightJoyX) < 0.1) {
-            rightJoyX = 0.0;
-        }
+        //if(Math.abs(leftJoyX) < 0.1){
+        //leftJoyX = 0.0;
+        // }
+        //if(Math.abs(leftJoyY) < 0.1){
+        //leftJoyY = 0.0;
+        // }
+        //if(Math.abs(rightJoyX) < 0.1){
+        // rightJoyX = 0.0;
+        // }
 //        rightJoyY = xBox.getRawAxis(RobotMap.xBoxRightYAxis);
         // leftJoyX = RobotMap.stickDeadBand.Deaden(leftJoyX);
         //leftJoyY = RobotMap.stickDeadBand.Deaden(leftJoyY);
@@ -112,7 +125,24 @@ public class Chassis extends Subsystem {
         status = "Rear: ";
         status += MathLib.round(rearLeftMotor.get(), 2) + " ";
         status += MathLib.round(rearRightMotor.get(), 2) + " ";
+        status += MathLib.round(encoder.getDistance(), 2);
         DriverStationLCD.getInstance().println(DriverStationLCD.Line.kUser2, 1, "                     ");
         DriverStationLCD.getInstance().println(DriverStationLCD.Line.kUser2, 1, status);
+    }
+
+    protected double returnPIDInput() {
+        return encoder.getDistance();
+    }
+
+    protected void usePIDOutput(double output) {
+        if(output > 1.0)
+            output  = 1.0;
+        else if(output < -1.0)
+            output = -1.0;
+        
+        frontLeftMotor.set(output);
+        rearLeftMotor.set(output);
+        frontRightMotor.set(-output);
+        rearRightMotor.set(-output);
     }
 }

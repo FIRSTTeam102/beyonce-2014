@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStationLCD;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.command.WaitCommand;
 import edu.wpi.first.wpilibj.templates.RobotMap;
 import edu.wpi.first.wpilibj.templates.commands.DriveWithXBox;
 
@@ -25,8 +26,8 @@ public class Lift extends Subsystem {
     private final DigitalInput liftUpLeft;
     private final DigitalInput liftUpRight;
 
-    private final Talon leftMotor;
-    private final Talon rightMotor;
+    public final Talon leftMotor;
+    public final Talon rightMotor;
 
     public Lift() {
         liftDownLeft = new DigitalInput(RobotMap.liftDownLeft);
@@ -46,9 +47,10 @@ public class Lift extends Subsystem {
     public void lift(double speed) {
         leftMotor.set(speed);
         if (speed > 0.0) {
-            rightMotor.set(speed * RobotMap.liftMotorSpeedAdjustment);
+            rightMotor.set(speed * RobotMap.liftMotorRightSpeedAdjustment);
         } else {
-            rightMotor.set(speed * RobotMap.liftMotorSpeedAdjustment);
+            rightMotor.set(speed * RobotMap.liftMotorRightSpeedAdjustment);
+            
 
         }
     }
@@ -56,19 +58,19 @@ public class Lift extends Subsystem {
     public void liftLeft(boolean up) {
         if (up) {
             if (liftUpLeft.get() == true) {
-                leftMotor.set(RobotMap.liftUpSpeed);
-                MessageLogger.LogMessage("LiftUp - left motor up.");
+                leftMotor.set(RobotMap.liftUpSpeed * 0.25);
+                MessageLogger.LogMessage("LiftLeftUp - left motor up.");
             } else {
                 leftMotor.set(0.0);
-                MessageLogger.LogMessage("LiftUp - stopping left motor.");
+                MessageLogger.LogMessage("LiftLeftUp - stopping left motor.");
             }
         } else {
             if (liftDownLeft.get() == false) {
                 leftMotor.set(0.0);
-                MessageLogger.LogMessage("LiftDown - stopping left motor.");
+                MessageLogger.LogMessage("LiftLeftDown - stopping left motor.");
             } else {
-                leftMotor.set(-RobotMap.liftDownSpeed);
-                MessageLogger.LogMessage("LiftDown - left motor down.");
+                leftMotor.set(-RobotMap.liftUpSpeed * 0.25);
+                MessageLogger.LogMessage("LiftLeftDown - left motor down.");
             }
         }
     }
@@ -76,19 +78,19 @@ public class Lift extends Subsystem {
     public void liftRight(boolean up) {
         if (up) {
             if (liftUpRight.get() == true) {
-                rightMotor.set(RobotMap.liftUpSpeed * RobotMap.liftMotorSpeedAdjustment);
-                MessageLogger.LogMessage("LiftUp - right motor up.");
+                rightMotor.set(RobotMap.liftUpSpeed * 0.25);
+                MessageLogger.LogMessage("LiftRightUp - right motor up.");
             } else {
                 rightMotor.set(0.0);
-                MessageLogger.LogMessage("LiftUp - stopping right motor.");
+                MessageLogger.LogMessage("LiftRightUp - stopping right motor.");
             }
         } else {
             if (liftDownRight.get() == false) {
                 rightMotor.set(0.0);
-                MessageLogger.LogMessage("LiftDown - stopping right motor.");
+                MessageLogger.LogMessage("LiftRightDown - stopping right motor.");
             } else {
-                rightMotor.set(-RobotMap.liftDownSpeed);
-                MessageLogger.LogMessage("LiftDown - right motor down.");
+                rightMotor.set(-RobotMap.liftUpSpeed * 0.25);
+                MessageLogger.LogMessage("LiftRightDown - right motor down.");
             }
         }
     }
@@ -96,8 +98,22 @@ public class Lift extends Subsystem {
     public void liftUp() {
         if ((liftUpLeft.get() == true) && (liftUpRight.get() == true)) {
 
-            leftMotor.set(RobotMap.liftUpSpeed);
-            rightMotor.set(RobotMap.liftUpSpeed * RobotMap.liftMotorSpeedAdjustment);
+            leftMotor.set(RobotMap.liftUpSpeed * RobotMap.liftMotorLeftSpeedAdjustment);
+            rightMotor.set(RobotMap.liftUpSpeed * RobotMap.liftMotorRightSpeedAdjustment);
+            
+            MessageLogger.LogMessage("LiftUp - left and right motor up.");
+        } else {
+            leftMotor.set(0.0);
+            rightMotor.set(0.0);
+            MessageLogger.LogMessage("LiftUp - stopping left and right motor.");
+        }
+    }
+    public void liftUp(double liftSpeed) {
+        if ((liftUpLeft.get() == true) && (liftUpRight.get() == true)) {
+//            
+            leftMotor.set(liftSpeed * RobotMap.liftMotorLeftSpeedAdjustment);
+            rightMotor.set(liftSpeed * RobotMap.liftMotorRightSpeedAdjustment);
+            
             MessageLogger.LogMessage("LiftUp - left and right motor up.");
         } else {
             leftMotor.set(0.0);
@@ -112,14 +128,14 @@ public class Lift extends Subsystem {
             leftMotor.set(0.0);
             MessageLogger.LogMessage("LiftDown - stopping left motor.");
         } else {
-            leftMotor.set(-RobotMap.liftDownSpeed);
+            leftMotor.set(-RobotMap.liftDownSpeed * RobotMap.liftMotorLeftSpeedAdjustment);
             MessageLogger.LogMessage("LiftDown - left motor down.");
         }
         if (liftDownRight.get() == false) {
             rightMotor.set(0.0);
             MessageLogger.LogMessage("LiftDown - stopping right motor.");
         } else {
-            rightMotor.set(-RobotMap.liftDownSpeed * RobotMap.liftMotorSpeedAdjustment);
+            rightMotor.set(-RobotMap.liftDownSpeed * RobotMap.liftMotorRightSpeedAdjustment);
             MessageLogger.LogMessage("LiftDown - right motor down.");
         }
     }

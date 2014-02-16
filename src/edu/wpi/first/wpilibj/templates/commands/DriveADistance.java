@@ -11,23 +11,20 @@ import Team102Lib.MessageLogger;
  *
  * @author Admin
  */
-public class LiftRight extends CommandBase {
-
-    boolean up;
-
-    public LiftRight(boolean up) {
+public class DriveADistance extends CommandBase {
+    
+    public DriveADistance(double distanceToTravelInInches) {
         // Use requires() here to declare subsystem dependencies
-        requires(lift);
-        this.up = up;
+        requires(chassisWithEncoder);
+        chassisWithEncoder.setSetpoint(distanceToTravelInInches);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        if (up && lift.isLiftRightAtLimit(up)) {
-            lift.stopMotors();
-        } else {
-            lift.liftRight(up);
-        }
+        chassisWithEncoder.encoder.reset();
+        chassisWithEncoder.encoder.start();
+        chassisWithEncoder.enable();
+        MessageLogger.LogMessage("DriveADistance enabled");
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -36,23 +33,17 @@ public class LiftRight extends CommandBase {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        if (up && lift.isLiftRightAtLimit(up)) {
-            MessageLogger.LogMessage("LiftRight reached up limit switch");
-            return true;
-        } else {
-            return false;
-        }
+        return (Math.abs(chassisWithEncoder.getSetpoint() - chassisWithEncoder.getPosition()) < 0.5);
     }
 
     // Called once after isFinished returns true
     protected void end() {
-        lift.stopMotors();
+        chassisWithEncoder.disable();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-        MessageLogger.LogMessage("LiftLeft interrupted");
         end();
     }
 }

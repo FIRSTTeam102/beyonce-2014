@@ -21,6 +21,7 @@ public class Shoot extends CommandGroup {
         //      addSequential(new Command2());
         // these will run in order.
 
+   //     addSequential(new HoldLift(0.1));
         addParallel(new MoveConveyor(RobotMap.secsToShootConveyor));
         addSequential(new LiftUp());
         addSequential(new WaitCommand(0.5));

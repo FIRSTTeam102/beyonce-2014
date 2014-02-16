@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.templates.OI;
 import edu.wpi.first.wpilibj.templates.subsystems.Chassis;
+import edu.wpi.first.wpilibj.templates.subsystems.ChassisWithEncoder;
 import edu.wpi.first.wpilibj.templates.subsystems.Conveyor;
 import edu.wpi.first.wpilibj.templates.subsystems.Lift;
 
@@ -21,6 +22,7 @@ public abstract class CommandBase extends Command {
     public static OI oi;
     // Create a single static instance of all of your subsystems
     public static Chassis chassis;
+    public static ChassisWithEncoder chassisWithEncoder;
     public static Conveyor conveyor;
     public static Lift lift;
 
@@ -32,6 +34,7 @@ public abstract class CommandBase extends Command {
         // news. Don't move it.
         try {
             chassis = new Chassis();
+//            chassisWithEncoder = new ChassisWithEncoder();
             conveyor = new Conveyor();
             lift = new Lift();
             // ALL SUBSYSTEMS MUST BE CREATED BEFORE THE OI

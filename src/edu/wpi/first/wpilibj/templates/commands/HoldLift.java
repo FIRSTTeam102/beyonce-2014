@@ -11,48 +11,40 @@ import Team102Lib.MessageLogger;
  *
  * @author Admin
  */
-public class LiftRight extends CommandBase {
+public class HoldLift extends CommandBase {
 
-    boolean up;
+    double speed;
 
-    public LiftRight(boolean up) {
+    public HoldLift(double speed) {
         // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
         requires(lift);
-        this.up = up;
+        this.speed = speed;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        if (up && lift.isLiftRightAtLimit(up)) {
-            lift.stopMotors();
-        } else {
-            lift.liftRight(up);
-        }
+        MessageLogger.LogMessage("HoldLift command began");
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+        lift.lift(speed);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        if (up && lift.isLiftRightAtLimit(up)) {
-            MessageLogger.LogMessage("LiftRight reached up limit switch");
-            return true;
-        } else {
-            return false;
-        }
+        return false;
     }
 
-    // Called once after isFinished returns true
+// Called once after isFinished returns true
     protected void end() {
-        lift.stopMotors();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-        MessageLogger.LogMessage("LiftLeft interrupted");
         end();
+        MessageLogger.LogMessage("Hold Lift command interrupted.");
     }
 }

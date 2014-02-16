@@ -14,6 +14,8 @@ import edu.wpi.first.wpilibj.templates.commands.Shoot;
 import edu.wpi.first.wpilibj.templates.commands.MoveConveyorAtSpeed;
 import edu.wpi.first.wpilibj.templates.commands.MoveLift;
 import edu.wpi.first.wpilibj.templates.commands.SpinConveyor;
+import edu.wpi.first.wpilibj.templates.commands.DriveADistance;
+import edu.wpi.first.wpilibj.templates.commands.LiftSlowStartup;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -72,6 +74,14 @@ public class OI {
     
     public OI() {
         try {
+        } catch (Exception ex1) {
+            MessageLogger.LogError("Unhandled exception in OI constructor.");
+            MessageLogger.LogError(ex1.toString());
+        }
+    }
+
+    public void CreateOI()
+    {
             xBoxDriver = new Joystick(JOYSTICK_PORT1);
             xBoxTester = new Joystick(JOYSTICK_PORT3);
 
@@ -96,23 +106,27 @@ public class OI {
                 xBoxLeftBumper = new JoystickButton(xBoxDriver, RobotMap.xBoxLeftBumperIndex);
             }
             xBoxLeftBumper.toggleWhenPressed(new Shoot());
-            xBoxA.whileHeld(new MoveLift(RobotMap.liftUpSpeed));
+            xBoxA.whenPressed(new LiftSlowStartup());
+            xBoxA.whenReleased(new MoveLift(0.0));
             xBoxB.whileHeld(new MoveLift(-RobotMap.liftDownSpeed));
+//            xBoxY.whenPressed(new DriveADistance(RobotMap.autonomousLowGoalDistance));
             
             //Tester Controller
+            xBoxTesterA = new JoystickButton(xBoxTester, RobotMap.xBoxAIndex);
+            xBoxTesterB = new JoystickButton(xBoxTester, RobotMap.xBoxBIndex);
+            xBoxTesterX = new JoystickButton(xBoxTester, RobotMap.xBoxXIndex);
+            xBoxTesterY = new JoystickButton(xBoxTester, RobotMap.xBoxYIndex);
+            xBoxTesterA.whenPressed(new LiftRight(true));
+            xBoxTesterA.whenReleased(new MoveLift(0.0));
+            xBoxTesterB.whenPressed(new LiftRight(false));
+            xBoxTesterB.whenReleased(new MoveLift(0.0));
+            xBoxTesterX.whenPressed(new LiftLeft(true));
+            xBoxTesterX.whenReleased(new MoveLift(0.0));
+            xBoxTesterY.whenPressed(new LiftLeft(false));
+            xBoxTesterY.whenReleased(new MoveLift(0.0));
             
-
-/*            xBoxTesterA.whileHeld(new LiftRight(true));
-            xBoxTesterB.whileHeld(new LiftRight(false));
-            xBoxTesterX.whileHeld(new LiftLeft(true));
-            xBoxTesterY.whileHeld(new LiftLeft(false));
- */                    
-        } catch (Exception ex1) {
-            MessageLogger.LogError("Unhandled exception in OI constructor.");
-            MessageLogger.LogError(ex1.toString());
-        }
+        
     }
-
     public Joystick getOperatorXBox() {
         if(twoDriverMode)
             return xBoxOperator;

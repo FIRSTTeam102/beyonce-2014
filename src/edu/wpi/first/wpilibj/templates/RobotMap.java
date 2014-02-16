@@ -41,6 +41,9 @@ public class RobotMap {
     public static final int liftDownRight = 9;
     public static final int liftUpLeft = 10;
     public static final int liftUpRight = 11;
+    
+    public static final int encoderA = 13;
+    public static final int encoderB = 14;
 
     // Solenoid Modules and Ports
 
@@ -50,13 +53,21 @@ public class RobotMap {
     public static final double secsToShootConveyor = 3.0;
     public static final double liftUpSpeed = 1.0;
     public static final double liftDownSpeed = 0.5;
-    public static final double liftMotorSpeedAdjustment = 0.8; 
+    public static final double liftMotorRightSpeedAdjustment = 1.0;
+    public static final double liftMotorLeftSpeedAdjustment = .95; 
      
+    // Convert from encoder count to distance in inches.
+    public static final double wheelDiameter = 6.0;
+    public static final double wheelCircumference = wheelDiameter * Math.PI;
+    public static final double pulsesPerRevolution = 360.0;
+    public static final double wheelRotationPerMotorRotation = 12.75;
+    public static final double encoderInchesPerPulse = (wheelCircumference * wheelRotationPerMotorRotation) / pulsesPerRevolution;
+    public static final double autonomousLowGoalDistance = 180; // inches to the low goal shot.
+    
     // Joystick Setup
     public static final double joystickRange = 1.0d; // the range of the joystick around 0.0
     public static final double flatDeadband = 0.02d;        // The amount of flat space in the deadband (around 0.0)
     public static Deadband stickDeadBand = null;    // Used to create a smooth deadband for the stick.
-
     // public static final double twistCorrection = +0.0;
 
     // XBox Controller Joystick Axis

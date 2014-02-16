@@ -5,6 +5,7 @@
  */
 package edu.wpi.first.wpilibj.templates.commands;
 
+import Team102Lib.MathLib;
 import Team102Lib.MessageLogger;
 
 /**
@@ -24,7 +25,7 @@ public class MoveLift extends CommandBase {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        MessageLogger.LogMessage("MoveLift command began");
+        MessageLogger.LogMessage("MoveLift(" + MathLib.round(speed, 2) + ") command began");
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -51,6 +52,7 @@ public class MoveLift extends CommandBase {
 
 // Called once after isFinished returns true
     protected void end() {
+        MessageLogger.LogMessage("MoveLift(" + MathLib.round(speed, 2) + ") command ended");
         lift.stopMotors();
     }
 
