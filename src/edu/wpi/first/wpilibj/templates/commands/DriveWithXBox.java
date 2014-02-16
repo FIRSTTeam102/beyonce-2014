@@ -22,6 +22,7 @@ public class DriveWithXBox extends CommandBase
     // Called just before this Command runs the first time
     protected void initialize()
     {
+        MessageLogger.LogMessage("DriveWithXBox Initalized");
     }
 
     // Called repeatedly when this Command is scheduled to run

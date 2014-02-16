@@ -128,8 +128,6 @@ public class OI {
             xBoxTesterY.whenReleased(new MoveLift(0.0));
             xBoxTesterRightBumper.whenPressed(new DriveADistance(RobotMap.autonomousLowGoalDistance));
             xBoxTesterRightBumper.whenReleased(new DriveADistance(0.0));
-            xBoxTesterLeftBumper.whenPressed(new DriveADistance(RobotMap.autonomousLowGoalDistance));  
-            xBoxTesterLeftBumper.whenReleased(new DriveADistance(0.0));
         
     }
     public Joystick getOperatorXBox() {

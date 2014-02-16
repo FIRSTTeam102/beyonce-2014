@@ -13,18 +13,22 @@ import edu.wpi.first.wpilibj.templates.subsystems.ChassisWithEncoder;
  * @author Admin
  */
 public class DriveADistance extends CommandBase {
-    
+    double setpoint = 0.0 ;
     public DriveADistance(double distanceToTravelInInches) {
         // Use requires() here to declare subsystem dependencies
         requires(chassis);
-        chassis.setSetpoint(distanceToTravelInInches);
+        setpoint = distanceToTravelInInches;
+        MessageLogger.LogMessage("DriveADistance: " + chassis.getSetpoint() + "\t" + chassis.getPosition());
+        
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+        chassis.setSetpoint(setpoint);
         chassis.encoder.reset();
         chassis.encoder.start();
         chassis.enable();
+        MessageLogger.LogMessage("Enabled: " + chassis.getSetpoint() + "\t" + chassis.getPosition());
         MessageLogger.LogMessage("DriveADistance enabled");
     }
 
@@ -34,7 +38,9 @@ public class DriveADistance extends CommandBase {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
+        MessageLogger.LogMessage(chassis.getSetpoint() + "\t" + chassis.getPosition());
         return (Math.abs(chassis.getSetpoint() - chassis.getPosition()) < 0.5);
+       
     }
 
     // Called once after isFinished returns true
