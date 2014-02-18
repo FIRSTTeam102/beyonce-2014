@@ -45,6 +45,8 @@ public class ChassisWithEncoder extends PIDSubsystem {
     public double speedScale;
 
     public Encoder encoder;
+    
+    public boolean driveMecanum = true;
 
     public void initDefaultCommand() {
        setDefaultCommand(new DriveWithXBox());
@@ -62,10 +64,7 @@ public class ChassisWithEncoder extends PIDSubsystem {
         drive = new RobotDrive(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor);
 
         drive.setSafetyEnabled(false);
-        drive.setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
-        drive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
-        drive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, false);
-        drive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, false);
+        this.setInvertedMotors();
 
         speedScale = 1.0;
         
@@ -82,12 +81,13 @@ public class ChassisWithEncoder extends PIDSubsystem {
         leftJoyX = xBox.getRawAxis(RobotMap.xBoxLeftXAxis);
         leftJoyY = xBox.getRawAxis(RobotMap.xBoxLeftYAxis);
         rightJoyX = xBox.getRawAxis(RobotMap.xBoxRightXAxis);
+        rightJoyY = xBox.getRawAxis(RobotMap.xBoxRightYAxis);
 
         // Scale the speed.
         leftJoyX *= speedScale;
         leftJoyY *= speedScale;
         rightJoyX *= speedScale;
-
+        rightJoyY *= speedScale;
         // Simple deadband
         if (Math.abs(leftJoyX) < 0.1) {
             leftJoyX = 0.0;
@@ -98,8 +98,16 @@ public class ChassisWithEncoder extends PIDSubsystem {
         if (Math.abs(rightJoyX) < 0.1) {
             rightJoyX = 0.0;
         }
-
-        drive.mecanumDrive_Cartesian(leftJoyX, leftJoyY, rightJoyX, 0);
+        if (Math.abs(rightJoyY) < 0.1) {
+            rightJoyY = 0.0;
+        }
+        
+        if (driveMecanum){
+            drive.mecanumDrive_Cartesian(leftJoyX, leftJoyY, rightJoyX, 0);
+        }else{
+            drive.tankDrive(leftJoyY, rightJoyY);
+        }
+        
     }
 
     public void tankDrive(double leftSpeed, double rightSpeed) {
@@ -107,7 +115,7 @@ public class ChassisWithEncoder extends PIDSubsystem {
     }
 
     public void updateStatus() {
-        String status = "Frnt: ";
+        String status = "Frnt(" + (driveMecanum ? "M" : "T" )+"): ";
         status += MathLib.round(frontLeftMotor.get(), 2) + " ";
         status += MathLib.round(frontRightMotor.get(), 2) + " ";
 
@@ -137,4 +145,18 @@ public class ChassisWithEncoder extends PIDSubsystem {
         frontRightMotor.set(-output);
         rearRightMotor.set(-output);
     }
+    public void setInvertedMotors(){
+        if(driveMecanum){
+            drive.setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
+            drive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
+            drive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, false);
+            drive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, false);            
+        }else{            
+            drive.setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
+            drive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
+            drive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, true);
+            drive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, true);
+        }
+    }
 }
+

@@ -4,7 +4,6 @@ import Team102Lib.MessageLogger;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.templates.OI;
-import edu.wpi.first.wpilibj.templates.subsystems.Chassis;
 import edu.wpi.first.wpilibj.templates.subsystems.ChassisWithEncoder;
 import edu.wpi.first.wpilibj.templates.subsystems.Conveyor;
 import edu.wpi.first.wpilibj.templates.subsystems.Lift;

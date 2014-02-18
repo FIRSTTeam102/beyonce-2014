@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.DigitalIOButton;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.templates.commands.CommandBase;
 import edu.wpi.first.wpilibj.templates.commands.LiftDown;
 import edu.wpi.first.wpilibj.templates.commands.LiftLeft;
 import edu.wpi.first.wpilibj.templates.commands.LiftRight;
@@ -91,6 +92,8 @@ public class OI {
 
             DriverStation ds = DriverStation.getInstance();
             // ATTENTION: getAnalog does not work in robotInit()!!  (except in debug mode :()
+            CommandBase.chassis.driveMecanum = ds.getDigitalIn(RobotMap.driveMecanumDI);
+            CommandBase.chassis.setInvertedMotors();
             twoDriverMode = ds.getDigitalIn(RobotMap.twoDriverModeDI);
             if(twoDriverMode)
             {
@@ -108,7 +111,7 @@ public class OI {
             xBoxLeftBumper.toggleWhenPressed(new Shoot());
             xBoxA.whenPressed(new LiftSlowStartup());
             xBoxA.whenReleased(new MoveLift(0.0));
-            xBoxB.whileHeld(new MoveLift(-RobotMap.liftDownSpeed));
+            xBoxB.whenPressed(new MoveLift(-RobotMap.liftDownSpeed));
 //            xBoxY.whenPressed(new DriveADistance(RobotMap.autonomousLowGoalDistance));
             
             //Tester Controller
