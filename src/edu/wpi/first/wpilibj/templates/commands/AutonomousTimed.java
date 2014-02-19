@@ -13,10 +13,22 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class AutonomousTimed extends CommandGroup {
     
-    public AutonomousTimed() {
+    public AutonomousTimed(boolean autoRight) {
+        double leftFactor, rightFactor;
+        if(autoRight)
+        {
+            leftFactor = 1.0;
+            rightFactor = 0.95;
+        }
+        else
+        {
+            leftFactor = 0.95;
+            rightFactor = 1.0;
+        }
+            
         addSequential(new AutonomousLoadBall());
-        addSequential(new TankDrive(1.0, .95, 1.0));
-        addSequential(new TankDrive(0.5, 0.475, 0.5)); 
+        addSequential(new TankDrive(1.0 * leftFactor, -1.0 * rightFactor, 1.0));
+        addSequential(new TankDrive(0.5 * leftFactor, -0.5 * rightFactor, 0.5)); 
         addSequential(new AutonomousShoot());
         // Add Commands here:
         // e.g. addSequential(new Command1());

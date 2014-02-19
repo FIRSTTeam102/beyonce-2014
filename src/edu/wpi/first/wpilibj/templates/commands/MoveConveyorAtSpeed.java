@@ -27,7 +27,7 @@ public class MoveConveyorAtSpeed extends CommandBase {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-                MessageLogger.LogMessage("Move conveyor at spped initialize");
+                MessageLogger.LogMessage("Move conveyor at speed initialize");
 
     }
 

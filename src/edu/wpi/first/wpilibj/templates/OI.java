@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.templates.commands.MoveLift;
 import edu.wpi.first.wpilibj.templates.commands.SpinConveyor;
 import edu.wpi.first.wpilibj.templates.commands.DriveADistance;
 import edu.wpi.first.wpilibj.templates.commands.LiftSlowStartup;
+import edu.wpi.first.wpilibj.templates.commands.AutonomousTimed;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -131,7 +132,7 @@ public class OI {
             xBoxTesterY.whenReleased(new MoveLift(0.0));
             xBoxTesterRightBumper.whenPressed(new DriveADistance(RobotMap.autonomousLowGoalDistance));
             xBoxTesterRightBumper.whenReleased(new DriveADistance(0.0));
-        
+            xBoxTesterLeftBumper.whenPressed(new AutonomousTimed(true));
     }
     public Joystick getOperatorXBox() {
         if(twoDriverMode)

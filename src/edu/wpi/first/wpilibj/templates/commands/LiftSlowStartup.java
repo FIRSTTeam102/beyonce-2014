@@ -24,7 +24,7 @@ public class LiftSlowStartup extends CommandBase {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        MessageLogger.LogMessage("Slow Start initialized.");
+        MessageLogger.LogMessage("Lift Slow Start initialized.");
         liftSpeed = 0.1;
     }
 

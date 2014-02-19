@@ -6,6 +6,7 @@
 package edu.wpi.first.wpilibj.templates.commands;
 
 import Team102Lib.MessageLogger;
+import edu.wpi.first.wpilibj.Timer;
 
 /**
  *
@@ -13,10 +14,18 @@ import Team102Lib.MessageLogger;
  */
 public class LiftUp extends CommandBase {
 
+    boolean shouldCheckConveyor = true;
+    double startTime;
     public LiftUp() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
         requires(lift);
+    }
+    public LiftUp(boolean shouldCheckConveyor) {
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
+        requires(lift);
+        this.shouldCheckConveyor = shouldCheckConveyor;
 
     }
 
@@ -24,13 +33,18 @@ public class LiftUp extends CommandBase {
     protected void initialize() {
         // This prevents the LiftDown command from interrupting the LiftUp command before it is complete.
         this.setInterruptible(false);
+        startTime = Timer.getFPGATimestamp();
         MessageLogger.LogMessage("Lift up command began");
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        if (conveyor.isConveyorRunning()) {
-            lift.liftUp();
+        if (!shouldCheckConveyor || (conveyor.isConveyorRunning())) {
+            // This is here to slow the motors 
+            if((Timer.getFPGATimestamp() - startTime) > 0.8)
+                lift.liftUp(0.2);
+            else
+                lift.liftUp();
         } else {
             MessageLogger.LogMessage("Lift up command cancelled because conveyor is not running.");
         }

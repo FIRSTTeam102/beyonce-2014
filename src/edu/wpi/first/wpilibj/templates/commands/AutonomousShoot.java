@@ -16,8 +16,8 @@ import edu.wpi.first.wpilibj.templates.RobotMap;
 public class AutonomousShoot extends CommandGroup {
 
     public AutonomousShoot() {
-        addParallel(new MoveConveyorAtSpeed(-0.5, 0.5, 1.5)); //if high goal, may need to get up to speed
-        addSequential(new LiftUp());
+        addParallel(new MoveConveyorAtSpeed(0.5, -0.5, 1.5)); //if high goal, may need to get up to speed
+        addSequential(new LiftUp(false));
         addSequential(new WaitCommand(0.5));
         addSequential(new LiftDown());
 

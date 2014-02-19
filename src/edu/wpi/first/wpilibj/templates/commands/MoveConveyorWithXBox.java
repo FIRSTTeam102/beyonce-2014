@@ -47,7 +47,7 @@ public class MoveConveyorWithXBox extends CommandBase
     // subsystems is scheduled to run
     protected void interrupted()
     {
-                MessageLogger.LogMessage("Move Conveyor at speed interrupted");
+                MessageLogger.LogMessage("Move Conveyor with x Box interrupted");
 
     }
 }

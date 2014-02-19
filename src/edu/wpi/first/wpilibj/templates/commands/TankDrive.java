@@ -12,6 +12,7 @@ import Team102Lib.MessageLogger;
  * @author Admin
  */
 public class TankDrive extends CommandBase {
+
     double leftSpeed;
     double rightSpeed;
 
@@ -25,7 +26,7 @@ public class TankDrive extends CommandBase {
     // Called just before this Command runs the first time
     protected void initialize() {
         chassis.tankDrive(leftSpeed, rightSpeed);
-                   MessageLogger.LogMessage("Stop conveyor command interrupted");
+        MessageLogger.LogMessage("TankDrive command initialize");
 
     }
 
@@ -46,7 +47,7 @@ public class TankDrive extends CommandBase {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-                   MessageLogger.LogMessage("Tank Drive command interrupted");
+        MessageLogger.LogMessage("Tank Drive command interrupted");
 
         end();
     }

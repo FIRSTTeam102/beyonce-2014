@@ -114,30 +114,32 @@ public class Lift extends Subsystem {
             leftMotor.set(liftSpeed * RobotMap.liftMotorLeftSpeedAdjustment);
             rightMotor.set(liftSpeed * RobotMap.liftMotorRightSpeedAdjustment);
             
-            MessageLogger.LogMessage("LiftUp - left and right motor up.");
+            MessageLogger.LogMessage("LiftUp(" + liftSpeed + ") - left and right motor up.");
         } else {
             leftMotor.set(0.0);
             rightMotor.set(0.0);
-            MessageLogger.LogMessage("LiftUp - stopping left and right motor.");
+            MessageLogger.LogMessage("LiftUp(" + liftSpeed + ") - stopping left and right motor.");
         }
     }
 
-    public void liftDown() {
+    public void liftDown(double liftSpeed) {
         if (liftDownLeft.get() == false) {
-
             leftMotor.set(0.0);
             MessageLogger.LogMessage("LiftDown - stopping left motor.");
         } else {
-            leftMotor.set(-RobotMap.liftDownSpeed * RobotMap.liftMotorLeftSpeedAdjustment);
+            leftMotor.set(-liftSpeed * RobotMap.liftMotorLeftSpeedAdjustment);
             MessageLogger.LogMessage("LiftDown - left motor down.");
         }
         if (liftDownRight.get() == false) {
             rightMotor.set(0.0);
             MessageLogger.LogMessage("LiftDown - stopping right motor.");
         } else {
-            rightMotor.set(-RobotMap.liftDownSpeed * RobotMap.liftMotorRightSpeedAdjustment);
+            rightMotor.set(-liftSpeed * RobotMap.liftMotorRightSpeedAdjustment);
             MessageLogger.LogMessage("LiftDown - right motor down.");
-        }
+        }        
+    }
+    public void liftDown() {
+        liftDown(RobotMap.liftDownSpeed);
     }
 
     public boolean isLiftUpAtLimit() {

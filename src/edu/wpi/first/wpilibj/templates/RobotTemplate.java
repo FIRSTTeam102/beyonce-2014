@@ -76,7 +76,10 @@ public class RobotTemplate extends IterativeRobot {
         // schedule the autonomous command (example)
 
         try {
-            autonomousCommand = new AutonomousTimed();
+               DriverStation ds = DriverStation.getInstance();
+            // ATTENTION: getAnalog does not work in robotInit()!!  (except in debug mode :()
+ 
+            autonomousCommand = new AutonomousTimed(ds.getDigitalIn(RobotMap.autoRightDI));
             autonomousCommand.start();
         } catch (Exception e) {
             MessageLogger.LogError("Unhandled Exception in autonomousInit()");
