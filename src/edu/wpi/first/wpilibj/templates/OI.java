@@ -95,6 +95,8 @@ public class OI {
             // ATTENTION: getAnalog does not work in robotInit()!!  (except in debug mode :()
             CommandBase.chassis.driveMecanum = ds.getDigitalIn(RobotMap.driveMecanumDI);
             CommandBase.chassis.setInvertedMotors();
+            CommandBase.chassis.driveBackwards = ds.getDigitalIn(RobotMap.driveBackwardsDI);
+            
             twoDriverMode = ds.getDigitalIn(RobotMap.twoDriverModeDI);
             if(twoDriverMode)
             {
@@ -132,7 +134,7 @@ public class OI {
             xBoxTesterY.whenReleased(new MoveLift(0.0));
             xBoxTesterRightBumper.whenPressed(new DriveADistance(RobotMap.autonomousLowGoalDistance));
             xBoxTesterRightBumper.whenReleased(new DriveADistance(0.0));
-            xBoxTesterLeftBumper.whenPressed(new AutonomousTimed(true));
+            xBoxTesterLeftBumper.whenPressed(new AutonomousTimed(true, ds.getAnalogIn(RobotMap.autoDriveTimeAI)));
     }
     public Joystick getOperatorXBox() {
         if(twoDriverMode)

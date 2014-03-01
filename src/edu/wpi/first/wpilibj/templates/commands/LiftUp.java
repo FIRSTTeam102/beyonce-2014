@@ -16,17 +16,20 @@ public class LiftUp extends CommandBase {
 
     boolean shouldCheckConveyor = true;
     double startTime;
+
     public LiftUp() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
         requires(lift);
+        this.setTimeout(1.2);
     }
+
     public LiftUp(boolean shouldCheckConveyor) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
         requires(lift);
         this.shouldCheckConveyor = shouldCheckConveyor;
-
+        this.setTimeout(1.2);
     }
 
     // Called just before this Command runs the first time
@@ -41,10 +44,11 @@ public class LiftUp extends CommandBase {
     protected void execute() {
         if (!shouldCheckConveyor || (conveyor.isConveyorRunning())) {
             // This is here to slow the motors 
-            if((Timer.getFPGATimestamp() - startTime) > 0.8)
+            if ((Timer.getFPGATimestamp() - startTime) > 0.8) {
                 lift.liftUp(0.2);
-            else
+            } else {
                 lift.liftUp();
+            }
         } else {
             MessageLogger.LogMessage("Lift up command cancelled because conveyor is not running.");
         }
@@ -53,17 +57,21 @@ public class LiftUp extends CommandBase {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
+        boolean finished = false;
         if (lift.isLiftUpAtLimit()) {
             MessageLogger.LogMessage("Lift up command at limit switch.");
-        }
-        if ((!conveyor.isConveyorRunning())) {
+            finished = true;
+        } else if (shouldCheckConveyor && (!conveyor.isConveyorRunning())) {
             MessageLogger.LogMessage("Lift up command finished because conveyor is not running.");
+            finished = true;
+        } else if (this.isTimedOut()) {
+            MessageLogger.LogMessage("Lift up command timed out.");
+            finished = true;
         }
-
-        return (lift.isLiftUpAtLimit() || (!conveyor.isConveyorRunning()));
+        return finished;
     }
 
-    // Called once after isFinished returns true
+// Called once after isFinished returns true
     protected void end() {
     }
 

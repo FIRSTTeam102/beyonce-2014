@@ -43,6 +43,7 @@ public class ChassisWithEncoder extends PIDSubsystem {
     private double rightJoyY;
 
     public double speedScale;
+    public boolean driveBackwards;
 
     public Encoder encoder;
     
@@ -102,12 +103,17 @@ public class ChassisWithEncoder extends PIDSubsystem {
             rightJoyY = 0.0;
         }
         
+        if(driveBackwards)
+        {
+            leftJoyX = -leftJoyX;
+            leftJoyY = -leftJoyY;
+            rightJoyX = -rightJoyX;
+        }
         if (driveMecanum){
             drive.mecanumDrive_Cartesian(leftJoyX, leftJoyY, rightJoyX, 0);
         }else{
             drive.tankDrive(leftJoyY, rightJoyY);
         }
-        
     }
 
     public void tankDrive(double leftSpeed, double rightSpeed) {

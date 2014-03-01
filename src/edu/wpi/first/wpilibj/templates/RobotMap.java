@@ -92,7 +92,9 @@ public class RobotMap {
     public static final int twoDriverModeDI = 1;
     public static final int driveMecanumDI = 2;
     public static final int autoRightDI = 3;
+    public static final int driveBackwardsDI = 4;  
     
     // Driver Stations Analog Inputs
-    public static final int speedScale = 3;
+    public static final int autoDriveTimeAI = 1;
+    public static final int speedScaleAI = 3;
 }

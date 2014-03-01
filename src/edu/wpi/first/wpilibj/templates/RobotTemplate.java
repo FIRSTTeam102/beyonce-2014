@@ -77,9 +77,9 @@ public class RobotTemplate extends IterativeRobot {
 
         try {
                DriverStation ds = DriverStation.getInstance();
-            // ATTENTION: getAnalog does not work in robotInit()!!  (except in debug mode :()
  
-            autonomousCommand = new AutonomousTimed(ds.getDigitalIn(RobotMap.autoRightDI));
+            double autoDriveTime = ds.getAnalogIn(RobotMap.autoDriveTimeAI);
+            autonomousCommand = new AutonomousTimed(ds.getDigitalIn(RobotMap.autoRightDI), autoDriveTime);
             autonomousCommand.start();
         } catch (Exception e) {
             MessageLogger.LogError("Unhandled Exception in autonomousInit()");
