@@ -134,7 +134,7 @@ public class OI {
             xBoxTesterY.whenReleased(new MoveLift(0.0));
             xBoxTesterRightBumper.whenPressed(new DriveADistance(RobotMap.autonomousLowGoalDistance));
             xBoxTesterRightBumper.whenReleased(new DriveADistance(0.0));
-            xBoxTesterLeftBumper.whenPressed(new AutonomousTimed(true, ds.getAnalogIn(RobotMap.autoDriveTimeAI)));
+            xBoxTesterLeftBumper.whenPressed(new AutonomousTimed(ds.getDigitalIn(RobotMap.autoRightDI), ds.getAnalogIn(RobotMap.autoDriveTimeAI), ds.getDigitalIn(RobotMap.autonomousDelay)));
     }
     public Joystick getOperatorXBox() {
         if(twoDriverMode)

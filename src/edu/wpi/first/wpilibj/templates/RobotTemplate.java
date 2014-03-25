@@ -79,7 +79,7 @@ public class RobotTemplate extends IterativeRobot {
                DriverStation ds = DriverStation.getInstance();
  
             double autoDriveTime = ds.getAnalogIn(RobotMap.autoDriveTimeAI);
-            autonomousCommand = new AutonomousTimed(ds.getDigitalIn(RobotMap.autoRightDI), autoDriveTime);
+            autonomousCommand = new AutonomousTimed(ds.getDigitalIn(RobotMap.autoRightDI), autoDriveTime, ds.getDigitalIn(RobotMap.autonomousDelay));
             autonomousCommand.start();
         } catch (Exception e) {
             MessageLogger.LogError("Unhandled Exception in autonomousInit()");

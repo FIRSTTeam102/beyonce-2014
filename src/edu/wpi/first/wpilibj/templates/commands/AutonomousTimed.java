@@ -7,6 +7,7 @@ package edu.wpi.first.wpilibj.templates.commands;
 
 import Team102Lib.MessageLogger;
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.WaitCommand;
 
 /**
  *
@@ -14,7 +15,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class AutonomousTimed extends CommandGroup {
     
-    public AutonomousTimed(boolean autoRight, double driveTime) {
+    public AutonomousTimed(boolean autoRight, double driveTime, boolean autoDelay) {
         
         MessageLogger.LogError("AutonomousTimed - autoRight: " + autoRight + "\tdriveTime: " + driveTime);
         
@@ -29,7 +30,11 @@ public class AutonomousTimed extends CommandGroup {
             leftFactor = 0.98;
             rightFactor = 1.0;
         }
-            
+        if(autoDelay)
+        {
+            addSequential(new WaitCommand(2.0));
+        }
+        
         addSequential(new AutonomousLoadBall());
         addSequential(new TankDrive(1.0 * leftFactor, -1.0 * rightFactor, driveTime));
 //        addSequential(new TankDrive(0.5 * leftFactor, -0.5 * rightFactor, 0.5)); 

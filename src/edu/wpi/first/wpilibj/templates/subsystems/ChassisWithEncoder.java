@@ -107,7 +107,7 @@ public class ChassisWithEncoder extends PIDSubsystem {
         {
             leftJoyX = -leftJoyX;
             leftJoyY = -leftJoyY;
-            rightJoyX = -rightJoyX;
+            rightJoyX = rightJoyX;
         }
         if (driveMecanum){
             drive.mecanumDrive_Cartesian(leftJoyX, leftJoyY, rightJoyX, 0);

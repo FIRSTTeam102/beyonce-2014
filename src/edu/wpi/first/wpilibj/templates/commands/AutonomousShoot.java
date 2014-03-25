@@ -17,6 +17,7 @@ public class AutonomousShoot extends CommandGroup {
 
     public AutonomousShoot() {
         addSequential(new LiftUp(false));
+        addSequential(new WaitCommand(1.5));
         addSequential(new MoveConveyorAtSpeed(1.0, -1.0, 1.5)); //if high goal, may need to get up to speed
         addSequential(new LiftDown());
 
